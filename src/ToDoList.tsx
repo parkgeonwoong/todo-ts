@@ -7,6 +7,7 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import styled from "styled-components";
 
 /* function ToDoList() {
   const [toDo, setToDo] = useState("");
@@ -32,20 +33,122 @@ import { useForm } from "react-hook-form";
   );
 } */
 
+interface IForm {
+  toDo: string;
+  email: string;
+}
+
 function ToDoList() {
-  const { register, watch } = useForm();
-  console.log("toDo");
-  console.log(watch());
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IForm>({
+    defaultValues: {
+      email: "@naver.com",
+    },
+  });
+
+  const onValid = (data: any) => {
+    console.log(data);
+  };
+
+  console.log("Error: ", errors);
+  // console.log(watch());
 
   return (
-    <div>
-      <form>
+    <Container>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <h1>ToDo List</h1>
         {/* useForm 사용 */}
-        <input {...register("toDo")} placeholder="Write to do" />
+        <input
+          // 옵셥을 줄 수 있다.
+          {...register("toDo", { required: "Required Todo" })}
+          placeholder="Write to do"
+        />
+
+        {/* formState를 통해 에러 메시지 보여주기 */}
+        <span>{errors?.toDo?.message}</span>
+
+        <input
+          {...register("email", {
+            required: "Email is required",
+            minLength: {
+              value: 10,
+              message: "Min length is 10",
+            },
+            pattern: {
+              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
+              message: "Only naver.com email is allowed",
+            },
+          })}
+          placeholder="Naver Email"
+        />
+        <span>{errors?.email?.message}</span>
         <button>Add</button>
-      </form>
-    </div>
+      </Form>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 0px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  border-radius: 10px;
+  background-color: white;
+  /* height: 80vh; */
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 80%;
+    height: 40px;
+    margin: 10px;
+    padding: 0px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  span {
+    font-size: 12px;
+    color: red;
+  }
+
+  button {
+    width: 80%;
+    height: 40px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #e5e5e5;
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #d5d5d5;
+    }
+  }
+`;
 
 export default ToDoList;
