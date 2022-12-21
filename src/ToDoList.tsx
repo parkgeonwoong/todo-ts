@@ -36,6 +36,8 @@ import styled from "styled-components";
 interface IForm {
   toDo: string;
   email: string;
+  password: string;
+  password1: string;
 }
 
 function ToDoList() {
@@ -44,14 +46,24 @@ function ToDoList() {
     watch,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IForm>({
     defaultValues: {
       email: "@naver.com",
     },
   });
 
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: IForm) => {
+    console.log("data: ", data);
+
+    // 에러를 생성해서 보여주기
+    if (data.password !== data.password1) {
+      setError(
+        "password1",
+        { message: "Password not match" },
+        { shouldFocus: true }
+      );
+    }
   };
 
   console.log("Error: ", errors);
@@ -64,7 +76,14 @@ function ToDoList() {
         {/* useForm 사용 */}
         <input
           // 옵셥을 줄 수 있다.
-          {...register("toDo", { required: "Required Todo" })}
+          {...register("toDo", {
+            required: "Required Todo",
+            // 원하는 규칙을 검사해보기
+            validate: {
+              a: (value) => value.includes("a") || "Should include a",
+              b: (value) => value.includes("b") || "Should include b",
+            },
+          })}
           placeholder="Write to do"
         />
 
@@ -86,6 +105,17 @@ function ToDoList() {
           placeholder="Naver Email"
         />
         <span>{errors?.email?.message}</span>
+
+        <input
+          {...register("password", { required: "Required password" })}
+          placeholder="password"
+        />
+
+        <input
+          {...register("password1", { required: "Required password" })}
+          placeholder="password1"
+        />
+        <span>{errors?.password1?.message}</span>
         <button>Add</button>
       </Form>
     </Container>
