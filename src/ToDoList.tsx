@@ -5,117 +5,45 @@
  *
  */
 
-import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
-/* function ToDoList() {
-  const [toDo, setToDo] = useState("");
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setToDo(value);
-  };
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(toDo);
-  };
-
-  return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input onChange={onChange} value={toDo} placeholder="Write to do" />
-        <button>Add</button>
-      </form>
-    </div>
-  );
-} */
-
+// TODO: 인터페이스 정의
 interface IForm {
   toDo: string;
-  email: string;
-  password: string;
-  password1: string;
 }
 
 function ToDoList() {
+  // TODO: useForm 사용하기
   const {
     register,
-    watch,
     handleSubmit,
+    setValue,
     formState: { errors },
-    setError,
-  } = useForm<IForm>({
-    defaultValues: {
-      email: "@naver.com",
-    },
-  });
+  } = useForm<IForm>();
 
-  const onValid = (data: IForm) => {
-    console.log("data: ", data);
-
-    // 에러를 생성해서 보여주기
-    if (data.password !== data.password1) {
-      setError(
-        "password1",
-        { message: "Password not match" },
-        { shouldFocus: true }
-      );
-    }
+  // TODO: submit 이벤트 핸들러
+  const handleValid = (data: IForm) => {
+    console.log("data toDo: ", data.toDo);
+    setValue("toDo", "");
   };
-
-  console.log("Error: ", errors);
-  // console.log(watch());
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <h1>ToDo List</h1>
-        {/* useForm 사용 */}
+      {/* 타이틀 */}
+      <Helmet>
+        <title>Todo List</title>
+      </Helmet>
+
+      {/* 폼 */}
+      <Form onSubmit={handleSubmit(handleValid)}>
+        <h1>Todo List</h1>
         <input
-          // 옵셥을 줄 수 있다.
-          {...register("toDo", {
-            required: "Required Todo",
-            // 원하는 규칙을 검사해보기
-            validate: {
-              a: (value) => value.includes("a") || "Should include a",
-              b: (value) => value.includes("b") || "Should include b",
-            },
-          })}
+          {...register("toDo", { required: "Please write Todo" })}
           placeholder="Write to do"
         />
-
-        {/* formState를 통해 에러 메시지 보여주기 */}
         <span>{errors?.toDo?.message}</span>
-
-        <input
-          {...register("email", {
-            required: "Email is required",
-            minLength: {
-              value: 10,
-              message: "Min length is 10",
-            },
-            pattern: {
-              value: /^[A-Za-z0-9._%+-]+@naver.com$/,
-              message: "Only naver.com email is allowed",
-            },
-          })}
-          placeholder="Naver Email"
-        />
-        <span>{errors?.email?.message}</span>
-
-        <input
-          {...register("password", { required: "Required password" })}
-          placeholder="password"
-        />
-
-        <input
-          {...register("password1", { required: "Required password" })}
-          placeholder="password1"
-        />
-        <span>{errors?.password1?.message}</span>
         <button>Add</button>
       </Form>
     </Container>
