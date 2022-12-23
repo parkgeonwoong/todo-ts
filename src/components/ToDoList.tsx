@@ -7,6 +7,7 @@
 
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
+import { atom, useRecoilState } from "recoil";
 import styled from "styled-components";
 
 // TODO: 인터페이스 정의
@@ -14,7 +15,20 @@ interface IForm {
   toDo: string;
 }
 
+interface IToDo {
+  text: string;
+  id: number;
+  category: "TODO" | "DOING" | "DONE";
+}
+
+const todoState = atom<IToDo[]>({
+  key: "toDo",
+  default: [],
+});
+
 function ToDoList() {
+  const [toDos, setToDos] = useRecoilState(todoState);
+
   // TODO: useForm 사용하기
   const {
     register,
@@ -24,10 +38,15 @@ function ToDoList() {
   } = useForm<IForm>();
 
   // TODO: submit 이벤트 핸들러
-  const handleValid = (data: IForm) => {
-    console.log("data toDo: ", data.toDo);
+  const handleValid = ({ toDo }: IForm) => {
+    setToDos((prev) => [
+      { text: toDo, id: Date.now(), category: "TODO" },
+      ...prev,
+    ]);
     setValue("toDo", "");
   };
+
+  console.log("toDos: ", toDos);
 
   return (
     <Container>
@@ -36,9 +55,12 @@ function ToDoList() {
         <title>Todo List</title>
       </Helmet>
 
+      <Box>
+        <h1>Todo List</h1>
+      </Box>
+
       {/* 폼 */}
       <Form onSubmit={handleSubmit(handleValid)}>
-        <h1>Todo List</h1>
         <input
           {...register("toDo", { required: "Please write Todo" })}
           placeholder="Write to do"
@@ -46,6 +68,12 @@ function ToDoList() {
         <span>{errors?.toDo?.message}</span>
         <button>Add</button>
       </Form>
+
+      <ul>
+        {toDos.map((toDo) => (
+          <li key={toDo.id}>{toDo.text}</li>
+        ))}
+      </ul>
     </Container>
   );
 }
@@ -54,6 +82,22 @@ const Container = styled.div`
   max-width: 480px;
   margin: 0 auto;
   padding: 20px 0px;
+`;
+
+const Box = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
+  margin-bottom: 20px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  border-radius: 10px;
+  background-color: white;
+
+  h1 {
+    font-size: 25px;
+    font-weight: 700;
+  }
 `;
 
 const Form = styled.form`
@@ -67,12 +111,6 @@ const Form = styled.form`
   border-radius: 10px;
   background-color: white;
   /* height: 80vh; */
-
-  h1 {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
 
   input {
     width: 80%;
