@@ -33,6 +33,7 @@ function ToDoList() {
       {/* 리스트 */}
       <ul>
         {toDos.map((toDo) => (
+          // ❓ props를 일일이 넣어주는 것이 아닌 {...toDo}해도 값이 들어감
           <ToDo key={toDo.id} {...toDo} />
         ))}
       </ul>
