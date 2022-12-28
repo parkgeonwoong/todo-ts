@@ -9,12 +9,14 @@
 import { Helmet } from "react-helmet-async";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { todoState } from "../atoms";
+import { toDoSelector, todoState } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
 function ToDoList() {
-  const toDos = useRecoilValue(todoState);
+  // 모든 카테고리를 랜더링할 필요가 없지 않을까? -> 카테고리별로 구분해서 랜더링
+  // const toDos = useRecoilValue(todoState);
+  const [toDo, active, done] = useRecoilValue(toDoSelector);
 
   return (
     <Container>
@@ -30,9 +32,28 @@ function ToDoList() {
       {/* 폼 */}
       <CreateToDo />
 
+      <h1>Todo</h1>
       {/* 리스트 */}
       <ul>
-        {toDos.map((toDo) => (
+        {toDo.map((toDo) => (
+          // ❓ props를 일일이 넣어주는 것이 아닌 {...toDo}해도 값이 들어감
+          <ToDo key={toDo.id} {...toDo} />
+        ))}
+      </ul>
+
+      <h1>Active</h1>
+      {/* 리스트 */}
+      <ul>
+        {active.map((toDo) => (
+          // ❓ props를 일일이 넣어주는 것이 아닌 {...toDo}해도 값이 들어감
+          <ToDo key={toDo.id} {...toDo} />
+        ))}
+      </ul>
+
+      <h1>Done</h1>
+      {/* 리스트 */}
+      <ul>
+        {done.map((toDo) => (
           // ❓ props를 일일이 넣어주는 것이 아닌 {...toDo}해도 값이 들어감
           <ToDo key={toDo.id} {...toDo} />
         ))}
