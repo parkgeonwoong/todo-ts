@@ -9,13 +9,15 @@
 
 <br>
 
-## 핵심적인 기술
+## 목적
 
 - 원래 사용하던 form, useState, useEffect가 아닌 `코드의 단순화`, `코드의 재사용성`을 위해 `React-hook-form`, `Recoil`을 사용했습니다.
 
 <br>
 
 - React-hook-form
+
+  - useForm()
 
 - Recoil
 

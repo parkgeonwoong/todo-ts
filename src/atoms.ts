@@ -32,7 +32,8 @@ export const categoryState = atom<Categories>({
 export const toDoSelector = selector({
   key: "toDoSelector",
   get: ({ get }) => {
-    const toDos = get(todoState); // selector가 atom을 읽을 때는 get을 사용한다.
+    // selector가 atom을 읽을 때는 get을 사용한다.
+    const toDos = get(todoState);
     const category = get(categoryState);
 
     // 3.2번 한줄로 줄이기

@@ -2,8 +2,8 @@
  * @desc : Todo 생성한 것을 보여주는 컴포넌트
  */
 
-import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
 import { Categories, IToDo, todoState } from "../atoms";
 
 function ToDo({ text, category, id }: IToDo) {
@@ -18,6 +18,7 @@ function ToDo({ text, category, id }: IToDo) {
       )
     );
   };
+
   return (
     <LiBox>
       <span>{text}</span>

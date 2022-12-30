@@ -1,5 +1,8 @@
 /**
  * @desc : Form ToDo 생성
+ * @todo :
+ * - react-hook-form 사용하기
+ * - useForm의 이해와 함수 사용방법
  */
 
 import styled from "styled-components";
