@@ -4,20 +4,28 @@
 
 import { atom, selector } from "recoil";
 
+// [enum] string값들로 하드코딩을 방지하기 위해
+export enum Categories {
+  "TODO" = "TODO",
+  "ACTIVE" = "ACTIVE",
+  "DONE" = "DONE",
+}
 export interface IToDo {
   text: string;
   id: number;
-  category: "TODO" | "ACTIVE" | "DONE";
+  category: Categories;
 }
 
+// [Atom] todo
 export const todoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
 });
 
-export const categoryState = atom({
+// [Atom] category
+export const categoryState = atom<Categories>({
   key: "category",
-  default: "TODO",
+  default: Categories.TODO,
 });
 
 // Selector

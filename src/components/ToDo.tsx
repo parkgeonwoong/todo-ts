@@ -4,7 +4,7 @@
 
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { IToDo, todoState } from "../atoms";
+import { Categories, IToDo, todoState } from "../atoms";
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(todoState);
@@ -20,15 +20,15 @@ function ToDo({ text, category, id }: IToDo) {
   };
   return (
     <LiBox>
-      <span>👉 {text}</span>
-      {category !== "TODO" && (
-        <button onClick={() => onClick("TODO")}>TODO</button>
+      <span>{text}</span>
+      {category !== Categories.TODO && (
+        <button onClick={() => onClick(Categories.TODO)}>👉 TODO</button>
       )}
-      {category !== "ACTIVE" && (
-        <button onClick={() => onClick("ACTIVE")}>ACTIVE</button>
+      {category !== Categories.ACTIVE && (
+        <button onClick={() => onClick(Categories.ACTIVE)}>🔥 ACTIVE</button>
       )}
-      {category !== "DONE" && (
-        <button onClick={() => onClick("DONE")}>DONE</button>
+      {category !== Categories.DONE && (
+        <button onClick={() => onClick(Categories.DONE)}>✅ DONE</button>
       )}
     </LiBox>
   );

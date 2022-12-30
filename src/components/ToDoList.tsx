@@ -8,19 +8,24 @@
 
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { categoryState, toDoSelector, todoState } from "../atoms";
+
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Categories, categoryState, toDoSelector } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
 function ToDoList() {
-  // 모든 카테고리를 랜더링할 필요가 없지 않을까? -> 카테고리별로 구분해서 랜더링
+  // ❓모든 카테고리를 랜더링할 필요가 없지 않을까? -> 카테고리별로 구분해서 랜더링
   // const toDos = useRecoilValue(todoState);
-  const todos = useRecoilValue(toDoSelector); // selector 한 상태값들
-  const [category, setCategory] = useRecoilState(categoryState); // 카테고리 상태값
+
+  // [selector] 상태값들
+  const todos = useRecoilValue(toDoSelector);
+
+  // 카테고리 상태값에 따른 필터링
+  const [category, setCategory] = useRecoilState(categoryState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
-    setCategory(event.currentTarget.value);
+    setCategory(event.currentTarget.value as Categories);
   };
 
   return (
@@ -34,11 +39,12 @@ function ToDoList() {
         <h1>Todo List</h1>
       </Box>
 
-      <select value={category} onInput={onInput}>
-        <option value="TODO">Todo</option>
-        <option value="ACTIVE">Active</option>
-        <option value="DONE">Done</option>
-      </select>
+      {/* 옵션 */}
+      <Select value={category} onInput={onInput}>
+        <option value={Categories.TODO}>👉 Todo</option>
+        <option value={Categories.ACTIVE}>🔥 Active</option>
+        <option value={Categories.DONE}>✅ Done</option>
+      </Select>
 
       {/* 폼 */}
       <CreateToDo />
@@ -72,6 +78,19 @@ const Box = styled.div`
 
   h1 {
     font-size: 25px;
+    font-weight: 700;
+  }
+`;
+
+const Select = styled.select`
+  width: 20%;
+  height: 30px;
+  margin-bottom: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  text-align: center;
+
+  option {
     font-weight: 700;
   }
 `;

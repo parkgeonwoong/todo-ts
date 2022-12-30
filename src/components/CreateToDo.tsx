@@ -4,29 +4,31 @@
 
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
-import { todoState } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { categoryState, todoState } from "../atoms";
 
-//  인터페이스 정의
+// [인터페이스] 정의
 interface IForm {
   toDo: string;
 }
 
 function CreateToDo() {
   const setToDos = useSetRecoilState(todoState); // Recoil 상태값 변경 함수
+
+  // 카테고리에 맞게 생성하기 위해 카테고리 상태값 가져오기
+  const category = useRecoilValue(categoryState);
+
+  // [useForm] 사용하기
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<IForm>(); // useForm 훅 사용
+  } = useForm<IForm>();
 
   // submit 이벤트 핸들러
   const handleValid = ({ toDo }: IForm) => {
-    setToDos((prev) => [
-      { text: toDo, id: Date.now(), category: "TODO" },
-      ...prev,
-    ]);
+    setToDos((prev) => [{ text: toDo, id: Date.now(), category }, ...prev]);
     setValue("toDo", "");
   };
 
