@@ -68,6 +68,11 @@ const Form = styled.form`
     border-radius: 10px;
     font-size: 16px;
     outline: none;
+    transition: all 0.3s ease-in-out;
+
+    :hover {
+      scale: 1.03;
+    }
   }
 
   span {

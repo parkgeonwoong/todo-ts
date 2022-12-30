@@ -19,6 +19,10 @@ function ToDo({ text, category, id }: IToDo) {
     );
   };
 
+  const handleDelete = () => {
+    setToDos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
   return (
     <LiBox>
       <span>{text}</span>
@@ -31,6 +35,7 @@ function ToDo({ text, category, id }: IToDo) {
       {category !== Categories.DONE && (
         <button onClick={() => onClick(Categories.DONE)}>✅ DONE</button>
       )}
+      <button onClick={handleDelete}>❌</button>
     </LiBox>
   );
 }

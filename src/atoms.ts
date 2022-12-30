@@ -20,6 +20,22 @@ export interface IToDo {
 export const todoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
+  // localStorage 도큐먼트 참고
+  effects: [
+    ({ setSelf, onSet }) => {
+      const localKey = "Todo";
+      const savedValue = localStorage.getItem(localKey);
+      if (savedValue !== null) {
+        setSelf(JSON.parse(savedValue));
+      }
+
+      onSet((newValue, _, isReset) => {
+        isReset
+          ? localStorage.removeItem(localKey)
+          : localStorage.setItem(localKey, JSON.stringify(newValue));
+      });
+    },
+  ],
 });
 
 // [Atom] category

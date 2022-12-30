@@ -36,7 +36,7 @@ function ToDoList() {
       </Helmet>
 
       <Box>
-        <h1>Todo List</h1>
+        <h1>🆃odo 🅻ist</h1>
       </Box>
 
       {/* 옵션 */}
@@ -89,9 +89,12 @@ const Select = styled.select`
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 600;
 
-  option {
-    font-weight: 700;
+  :hover {
+    border: 2px solid #487eb0;
   }
 `;
 
