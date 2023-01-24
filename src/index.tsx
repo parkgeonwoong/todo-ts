@@ -4,7 +4,7 @@ import App from "./App";
 
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
-import { theme } from "./theme";
+import { theme } from "./styles/theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

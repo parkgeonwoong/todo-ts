@@ -4,7 +4,7 @@
 
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
-import { Categories, IToDo, todoState } from "../atoms";
+import { Categories, IToDo, todoState } from "../models/atoms";
 
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(todoState);

@@ -8,7 +8,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { categoryState, todoState } from "../atoms";
+import { categoryState, todoState } from "../models/atoms";
 
 // [인터페이스] 정의
 interface IForm {

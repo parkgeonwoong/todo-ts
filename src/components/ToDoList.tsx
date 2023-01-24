@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Categories, categoryState, toDoSelector } from "../atoms";
+import { Categories, categoryState, toDoSelector } from "../models/atoms";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
